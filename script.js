@@ -10,6 +10,10 @@ var ypositie = 753; //begin positie verticaal
 var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
+var poppetje = new Image();
+poppetje.src="run002.png";
+var vloer = new Image();
+vloer.src="grond.png";
 
 
 function init() {
@@ -36,7 +40,7 @@ function drawObjects() {
 	
 	ctx.fillStyle = "red";
 	ctx.fillRect(begin,300,500,50);
-	ctx.fillRect(0,775,1200,25);
+	ctx.drawImage(vloer,0,775);
 }
 
 function animate() {
@@ -50,8 +54,7 @@ function animate() {
 
 function drawPlayer() {
 	ctx.save
-	ctx.fillStyle = "white";
-	ctx.fillRect(xpositie, ypositie, 15, 35)
+    ctx.drawImage(poppetje,xpositie,ypositie);
 	ctx.restore
 }
 
@@ -102,7 +105,7 @@ function position(){
 	}else {
 		ypositie += landspeed;
 	}
-	if (ypositie >= 740){ // vloer (min positie)
-		ypositie = 740;
+	if (ypositie >= 690){ // vloer (min positie)
+		ypositie = 690;
 	}
 }
