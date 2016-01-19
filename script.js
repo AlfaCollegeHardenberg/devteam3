@@ -1,10 +1,15 @@
 window.onload = init;
 var ctx;
 var begin = 1200
-var snelheid = 10;
+var snelheid = 10; //hoe snel de blokken op je af komen
 var up = false;
 var right = false;
 var left = false;
+var xpositie = 10; //begin positie horizontaal 
+var ypositie = 753; //begin positie verticaal 
+var sidewayspeed = 3; //snelheid links,rechts
+var jumpspeed = 18; //snelheid sprong omhoog
+var landspeed = 10; //snelheid landing
 
 
 function init() {
@@ -18,7 +23,7 @@ function init() {
 
 function drawScreen() {
 	ctx.clearRect(0,0,1200,800);
-	drawObjects();
+	drawObjects()
 	moveShit();
 
 }
@@ -35,23 +40,18 @@ function drawObjects() {
 
 function animate() {
 	drawScreen();
-	drawObjects();
 	requestAnimationFrame(animate);
 	drawPlayer();
-	movePlayer();
-	//position();
+	position();
 }
 
 
-var gravity = 0;
-var horizontal = 0
-var xPos = 0;
-var yPos = 0;
 
 function drawPlayer() {
-	ctx.translate(xPos, yPos)
+	ctx.save
 	ctx.fillStyle = "white";
-	ctx.fillRect(1000, 200, 15, 35)
+	ctx.fillRect(xpositie, ypositie, 15, 35)
+	ctx.restore
 }
 
 function handleKeyDown(evt) {
@@ -86,27 +86,22 @@ function handleKeyUp(evt) {
 }
 
 
-function movePlayer() {
-	if (left && horizontal != -0.2) {
-		horizontal -= 0.1
-	} else if (right && horizontal != 0.2) {
-		horizontal += 0.1;
+
+function position(){
+
+	if (left) {
+		xpositie -= sidewayspeed
+	} else if (right) {
+		xpositie += sidewayspeed
 	}
-	if (left != true && right != true) {
-		horizontal = 0
+	
+
+	if (up){
+		ypositie -= jumpspeed;
+	}else {
+		ypositie += landspeed;
 	}
-	if (up) {
-		gravity -= 0.3
+	if (ypositie >= 753){ // vloer (min positie)
+		ypositie = 753;
 	}
-	yPos += gravity
-	xPos += horizontal
 }
-
-//function position() {
-//	if (horizontal) == 0.5
-//		horizontal = 0.5
-//	if (yPos = 0) {
-//		gravity = 0
-//	}
-//}
-
