@@ -7,11 +7,9 @@ var right = false;
 var left = false;
 var xpositie = 10; //begin positie horizontaal 
 var ypositie = 753; //begin positie verticaal 
-var sidewayspeed = 10; //snelheid links,rechts
+var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
-var img = new Image();
-img.src="run002.png";
 
 
 function init() {
@@ -35,9 +33,10 @@ function moveShit(){
 }
 
 function drawObjects() {
+	
 	ctx.fillStyle = "red";
 	ctx.fillRect(begin,300,500,50);
-	ctx.fillRect(begin,750,1200,50);
+	ctx.fillRect(0,775,1200,25);
 }
 
 function animate() {
@@ -51,7 +50,8 @@ function animate() {
 
 function drawPlayer() {
 	ctx.save
-	ctx.drawImage(img,xpositie,ypositie);
+	ctx.fillStyle = "white";
+	ctx.fillRect(xpositie, ypositie, 15, 35)
 	ctx.restore
 }
 
@@ -102,7 +102,7 @@ function position(){
 	}else {
 		ypositie += landspeed;
 	}
-	if (ypositie >= 700){ // vloer (min positie)
-		ypositie = 700;
+	if (ypositie >= 740){ // vloer (min positie)
+		ypositie = 740;
 	}
 }
