@@ -12,8 +12,33 @@ var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
-var poppetje = new Image(); 
-poppetje.src="run002.png";
+
+var i = 0;
+var nieuwPoppetje = new Image();
+var poppetje = ["run002.png","run003.png","run004.png","run006.png","run007.png"];
+
+function animatePoppetje(){
+
+
+    i+= 1;
+
+    if (i == 12) {
+        nieuwPoppetje.src = poppetje[0];
+    } else if (i == 24) {
+        nieuwPoppetje.src = poppetje[1];
+    } else if (i == 36) {
+        nieuwPoppetje.src = poppetje[2];
+    } else if (i == 48) {
+        nieuwPoppetje.src = poppetje[3];
+    } else if (i == 60) {
+        nieuwPoppetje.src = poppetje[4];
+    } else if (i > 60){
+        i = 0;
+    }
+
+}
+
+
 var vloer = new Image();
 vloer.src="grond.png";
 
@@ -65,14 +90,15 @@ function animate() {
 	requestAnimationFrame(animate);
 	drawPlayer();
 	position();
+    animatePoppetje();
 }
 
 
 
-function drawPlayer() {
-	ctx.save
-    ctx.drawImage(poppetje,xpositie,ypositie);
-	ctx.restore
+function drawPlayer() {	
+ctx.save
+ ctx.drawImage(nieuwPoppetje,xpositie,ypositie);
+ctx.restore	
 }
 
 function handleKeyDown(evt) {
