@@ -12,6 +12,11 @@ var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
+var poppetje = new Image(); 
+poppetje.src="run002.png";
+var vloer = new Image();
+vloer.src="grond.png";
+
 
 var i = 0;
 var nieuwPoppetje = new Image();
@@ -39,10 +44,6 @@ function animatePoppetje(){
 }
 
 
-var vloer = new Image();
-vloer.src="grond.png";
-
-
 function init() {
 	document.onkeydown = handleKeyDown;
 	document.onkeyup = handleKeyUp;
@@ -64,15 +65,17 @@ function moveShit(){
 	eersteVloer -= snelheid;
 	tweedeVloer -= snelheid;
 }
+var objectHeight = 590;
 var eersteVloer = 0;
 var tweedeVloer = 1200;
 function drawObjects() {
 	ctx.fillStyle = "red";
-	ctx.fillRect(begin,300,500,50); //vliegend object1
+	ctx.fillRect(begin,objectHeight,500,50); //vliegend object1                                                 
 	ctx.drawImage(vloer,eersteVloer,775); //grond
 	ctx.drawImage(vloer,tweedeVloer,775);
 	if (begin <= -500) {
 		begin = 1200;
+		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1) 
 	}
 
 	if (eersteVloer == -1200){
@@ -89,16 +92,15 @@ function animate() {
 	drawScreen();
 	requestAnimationFrame(animate);
 	drawPlayer();
+	animatePoppetje();
 	position();
-    animatePoppetje();
 }
 
 
-
 function drawPlayer() {	
-ctx.save
- ctx.drawImage(nieuwPoppetje,xpositie,ypositie);
-ctx.restore	
+	ctx.save
+	ctx.drawImage(nieuwPoppetje,xpositie,ypositie);
+	ctx.restore	
 }
 
 function handleKeyDown(evt) {
@@ -156,5 +158,16 @@ function position(){
 		ypositie = floor;
 		grounded = true;
 	}
+	if (xpositie >= begin - 60 && xpositie <= begin + 450 && ypositie > (objectHeight - 85) && ypositie < 650){
+		ypositie = objectHeight - 85;
+		grounded = true;
+		console.log(objectHeight)
+	}
+
 }
 
+//ypositie kleiner of gelijk aan 590 en groter of gelijk is dan 640]
+// als xpositie <= 200
+// als ypositie <= 640
+//	positie 640
+//
