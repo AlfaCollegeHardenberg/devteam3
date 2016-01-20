@@ -13,13 +13,30 @@ var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
 var objectHeight = 590; //hoogte van blok
-var objectWidth = 500; // breedte van blok
 var eersteVloer = 0;
 var tweedeVloer = 1200;
 var poppetje = new Image(); 
 poppetje.src="run002.png";
 var vloer = new Image();
 vloer.src="grond.png";
+
+var blok1 = new Image();
+blok1.src = "blok1.png";
+var getal = 1
+
+function randomBlok(){
+    var randomGetal = Math.floor((Math.random() * 3) + 1);
+    if (randomGetal == 1) {
+        blok1.src = "blok1.png";
+        getal = 1// breedte 483px
+    }else if (randomGetal == 2) {
+        blok1.src = "blok2.png";
+        getal = 2// breedte 345px
+    }else if (randomGetal == 3) {
+        blok1.src = "blok3.png";
+        getal = 3 // breedte 276px
+    }
+}
 
 
 var i = 0;
@@ -71,13 +88,13 @@ function moveShit(){
 }
 
 function drawObjects() {
-	ctx.fillStyle = "red";
-	ctx.fillRect(begin,objectHeight,objectWidth,50); //vliegend object1                                                 
+	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt                                              
 	ctx.drawImage(vloer,eersteVloer,775); //grond
 	ctx.drawImage(vloer,tweedeVloer,775);
 	if (begin <= -500) {
 		begin = 1200;
-		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1) 
+		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1)
+		randomBlok();
 	}
 
 	if (eersteVloer == -1200){
@@ -136,10 +153,9 @@ function handleKeyUp(evt) {
 		}
 }
 
-
+gekozenGetal = console.log(randomBlok())
 grounded = true;
 function position(){
-console.log(floor)
 
 	if (left) {
 		xpositie -= sidewayspeed
@@ -162,11 +178,24 @@ console.log(floor)
 		floor = 690
 		grounded = true;
 	}
-	if (xpositie >= begin - 60 && xpositie <= begin + (objectWidth - 50) && ypositie > (objectHeight - 85) && ypositie < 650){
-		ypositie = objectHeight - 85;
-		grounded = true;
-		floor = objectHeight -85;
 		
+	if (getal == 1){
+		if (xpositie >= begin - 60 && xpositie <= begin + (440) && ypositie > (objectHeight - 85) && ypositie < 650){
+			ypositie = objectHeight - 85;
+			grounded = true;
+			floor = objectHeight -85;
+		}
+	} else if (getal == 2){
+		if (xpositie >= begin - 60 && xpositie <= begin + (300) && ypositie > (objectHeight - 85) && ypositie < 650){
+			ypositie = objectHeight - 85;
+			grounded = true;
+			floor = objectHeight -85;
+		}
+	} else if (getal == 3){
+		if (xpositie >= begin - 60 && xpositie <= begin + (230) && ypositie > (objectHeight - 85) && ypositie < 650){
+			ypositie = objectHeight - 85;
+			grounded = true;
+			floor = objectHeight -85;
+		}
 	}
-
 }
