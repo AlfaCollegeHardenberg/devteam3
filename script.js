@@ -1,16 +1,18 @@
 window.onload = init;
 var ctx;
 var begin = 1200
-var snelheid = 10; //hoe snel de blokken op je af komen
+var snelheid = 4; //hoe snel de blokken op je af komen
 var up = false;
 var right = false;
 var left = false;
+var jump = false;
 var xpositie = 10; //begin positie horizontaal 
 var ypositie = 753; //begin positie verticaal 
 var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
-var poppetje = new Image();
+var floor = 690; // hoogte van vloer
+var poppetje = new Image(); 
 poppetje.src="run002.png";
 var vloer = new Image();
 vloer.src="grond.png";
@@ -34,13 +36,28 @@ function drawScreen() {
 
 function moveShit(){
 	begin -= snelheid;
+	eersteVloer -= snelheid;
+	tweedeVloer -= snelheid;
 }
-
+var eersteVloer = 0;
+var tweedeVloer = 1200;
 function drawObjects() {
-	
 	ctx.fillStyle = "red";
-	ctx.fillRect(begin,300,500,50);
-	ctx.drawImage(vloer,0,775);
+	ctx.fillRect(begin,300,500,50); //vliegend object1
+	ctx.drawImage(vloer,eersteVloer,775); //grond
+	ctx.drawImage(vloer,tweedeVloer,775);
+	if (begin <= -500) {
+		begin = 1200;
+	}
+
+	if (eersteVloer == -1200){
+		eersteVloer = 0
+	}
+
+	if (tweedeVloer == 0){
+		tweedeVloer = 1200;
+	}
+
 }
 
 function animate() {
@@ -90,7 +107,7 @@ function handleKeyUp(evt) {
 }
 
 
-
+grounded = true;
 function position(){
 
 	if (left) {
@@ -99,13 +116,19 @@ function position(){
 		xpositie += sidewayspeed
 	}
 	
-
-	if (up){
+	if (ypositie <= (floor - 290)) {
+		grounded = false;
+	}
+	
+	if (up && grounded == true){
 		ypositie -= jumpspeed;
-	}else {
+	}else{
+		grounded = false;
 		ypositie += landspeed;
 	}
-	if (ypositie >= 690){ // vloer (min positie)
-		ypositie = 690;
+	if (ypositie >= floor){ // vloer (min positie)
+		ypositie = floor;
+		grounded = true;
 	}
 }
+
