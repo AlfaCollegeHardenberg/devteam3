@@ -12,6 +12,10 @@ var sidewayspeed = 3; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
+var objectHeight = 590; //hoogte van blok
+var objectWidth = 500; // breedte van blok
+var eersteVloer = 0;
+var tweedeVloer = 1200;
 var poppetje = new Image(); 
 poppetje.src="run002.png";
 var vloer = new Image();
@@ -65,12 +69,10 @@ function moveShit(){
 	eersteVloer -= snelheid;
 	tweedeVloer -= snelheid;
 }
-var objectHeight = 590;
-var eersteVloer = 0;
-var tweedeVloer = 1200;
+
 function drawObjects() {
 	ctx.fillStyle = "red";
-	ctx.fillRect(begin,objectHeight,500,50); //vliegend object1                                                 
+	ctx.fillRect(begin,objectHeight,objectWidth,50); //vliegend object1                                                 
 	ctx.drawImage(vloer,eersteVloer,775); //grond
 	ctx.drawImage(vloer,tweedeVloer,775);
 	if (begin <= -500) {
@@ -137,6 +139,7 @@ function handleKeyUp(evt) {
 
 grounded = true;
 function position(){
+console.log(floor)
 
 	if (left) {
 		xpositie -= sidewayspeed
@@ -154,20 +157,16 @@ function position(){
 		grounded = false;
 		ypositie += landspeed;
 	}
-	if (ypositie >= floor){ // vloer (min positie)
-		ypositie = floor;
+	if (ypositie >= 690){ // vloer (min positie)
+		ypositie = 690;
+		floor = 690
 		grounded = true;
 	}
-	if (xpositie >= begin - 60 && xpositie <= begin + 450 && ypositie > (objectHeight - 85) && ypositie < 650){
+	if (xpositie >= begin - 60 && xpositie <= begin + (objectWidth - 50) && ypositie > (objectHeight - 85) && ypositie < 650){
 		ypositie = objectHeight - 85;
 		grounded = true;
-		console.log(objectHeight)
+		floor = objectHeight -85;
+		
 	}
 
 }
-
-//ypositie kleiner of gelijk aan 590 en groter of gelijk is dan 640]
-// als xpositie <= 200
-// als ypositie <= 640
-//	positie 640
-//
