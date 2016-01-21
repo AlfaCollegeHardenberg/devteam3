@@ -7,6 +7,7 @@ var up = false;
 var right = false;
 var left = false;
 var jump = false;
+var space = false;
 var xpositie = 10; //begin positie horizontaal 
 var ypositie = 753; //begin positie verticaal 
 var sidewayspeed = 4; //snelheid links,rechts
@@ -76,14 +77,15 @@ function animatePoppetje(){
 
 }
 
-
+var score = 0;
 function drawScreen() {
 	ctx.clearRect(0,0,1200,800);
 	drawObjects()
 	moveShit();
 	ctx.fillStyle="red";
 	ctx.font = "30px Arial";
-	ctx.fillText(timer, 30, 100, 50)
+	ctx.fillText(("Time: " + timer), 30, 100, 80)
+	ctx.fillText(("Score: " + score), 1100, 100, 80)
 }
 
 function moveShit(){
@@ -132,18 +134,28 @@ function drawObjects() {
 	return clockposY
 }
 
-var timer = 60
+var timer = 10
 var timerteller = 0
+var scoreteller = 0
 function animate() { //60fps functie
 	drawScreen();
 	requestAnimationFrame(animate);
 	drawPlayer();
 	animatePoppetje();
 	position();
-	timerteller += 1
+	timerteller += 1;
 	if (timerteller == 60){
-		timerteller = 0
-		timer -= 1
+		timerteller = 0;
+		timer -= 1;
+	}
+	if (timer <= 0){
+		hit = false;
+		timer = 0;
+	}
+	scoreteller += 1;
+	if (scoreteller == 10 && timer > 0){
+		scoreteller = 0;
+		score += 1;
 	}
 
 }
@@ -162,6 +174,7 @@ function handleKeyDown(evt) {
 		left = true;
 		break;
 		case 38:
+		space = true;
 		up = true;
 		break;
 		case 39:
@@ -191,7 +204,7 @@ grounded = true;
 function position(){
 	console.log(clockposY)
 	if (ypositie <= clockposY + 20 && ypositie >= clockposY - 70 && xpositie <= clockposX + 10 && xpositie >= clockposX - 70 && hit == true){
-		timer += 10;
+		timer += 5;
 		hit = false; //klok
 		clockposY = 800;
 		console.log("hit")
