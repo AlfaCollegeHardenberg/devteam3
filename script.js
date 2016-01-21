@@ -37,6 +37,8 @@ function init() {
 	animate();
 }
 
+
+
 function randomBlok(){
     var randomGetal = Math.floor((Math.random() * 3) + 1);
     if (randomGetal == 1) {
@@ -131,6 +133,8 @@ function drawObjects() {
 		clockposY = clockPositie[randKlok] -100;
 		hit == true;
 	}
+
+
 	return clockposY
 }
 
@@ -163,7 +167,7 @@ function animate() { //60fps functie
 
 function drawPlayer() {	
 	ctx.save
-	ctx.drawImage(nieuwPoppetje,xpositie,ypositie);
+	ctx.drawImage(nieuwPoppetje,xpositie,ypositie, 100, 100);
 	ctx.restore	
 }
 
@@ -202,12 +206,19 @@ function handleKeyUp(evt) {
 hit = true;
 grounded = true;
 function position(){
-	console.log(clockposY)
+
+	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 60 && clockposX <= begin + 441){
+		clockposY -= 80;
+	}
+	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -60 && clockposX <= beginBlokTwee + 440){
+	
+		clockposY -= 80;
+	}
+
 	if (ypositie <= clockposY + 20 && ypositie >= clockposY - 70 && xpositie <= clockposX + 10 && xpositie >= clockposX - 70 && hit == true){
 		timer += 5;
 		hit = false; //klok
 		clockposY = 800;
-		console.log("hit")
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
