@@ -127,12 +127,6 @@ function drawObjects() {
 		clockposX = 1200; //random klok
 		randKlok = (Math.floor(Math.random() * 3) + 1) - 1;
 		clockposY = clockPositie[randKlok] -100;
-		if (clockposY <= objectHeight && clockposY >= objectHeight -50){
-			clockposY -= 110;
-		}
-		if (clockposY <= heightBlokTwee && clockposY >= heightBlokTwee -50){
-			clockposY -= 110;
-		}
 		hit == true;
 	}
 	return clockposY
@@ -198,7 +192,8 @@ function position(){
 	console.log(clockposY)
 	if (ypositie <= clockposY + 20 && ypositie >= clockposY - 70 && xpositie <= clockposX + 10 && xpositie >= clockposX - 70 && hit == true){
 		timer += 10;
-		hit = false;
+		hit = false; //klok
+		clockposY = 800;
 		console.log("hit")
 	}
 
