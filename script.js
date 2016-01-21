@@ -1,6 +1,7 @@
 window.onload = init;
 var ctx;
-var begin = 1200
+var begin = 1200;
+var beginBlokTwee = 1700;
 var snelheid = 10; //hoe snel de blokken op je af komen
 var up = false;
 var right = false;
@@ -12,7 +13,8 @@ var sidewayspeed = 4; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
-var objectHeight = 590; //hoogte van blok
+var objectHeight = 590; //hoogte van blok 1
+var heightBlokTwee = 400; // hoogte blok 2
 var eersteVloer = 0;
 var tweedeVloer = 1200;
 var poppetje = new Image(); 
@@ -78,21 +80,31 @@ function drawScreen() {
 	ctx.clearRect(0,0,1200,800);
 	drawObjects()
 	moveShit();
-
+	ctx.fillStyle="red";
+	ctx.font = "30px Arial";
+	ctx.fillText(timer, 30, 100, 50)
 }
 
 function moveShit(){
 	begin -= snelheid;
+	beginBlokTwee -= snelheid;
 	eersteVloer -= snelheid;
 	tweedeVloer -= snelheid;
 }
 
 function drawObjects() {
-	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt                                              
+	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
+	ctx.fillStyle="green";
+	ctx.fillRect(beginBlokTwee,heightBlokTwee,500,50);                                           
 	ctx.drawImage(vloer,eersteVloer,775); //grond
 	ctx.drawImage(vloer,tweedeVloer,775);
+	if (beginBlokTwee <= -500) {
+		beginBlokTwee = 1200; // blok achteraan zetten
+		heightBlokTwee = 400 - (Math.floor(Math.random() * 120))
+	}
+
 	if (begin <= -500) {
-		begin = 1200;
+		begin = 1200; // als blok1 geweest is, achteraan zetten
 		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1)
 		randomBlok();
 	}
@@ -105,6 +117,8 @@ function drawObjects() {
 	}
 
 }
+var timer = 60
+var timerteller = 0
 
 function animate() { //60fps functie
 	drawScreen();
@@ -112,6 +126,12 @@ function animate() { //60fps functie
 	drawPlayer();
 	animatePoppetje();
 	position();
+	timerteller += 1
+	if (timerteller == 60){
+		timerteller = 0
+		timer -= 1
+	}
+	console.log(timer)
 }
 
 
@@ -212,10 +232,23 @@ function position(){
 			floor = objectHeight -85;
 		}
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BLOK2
+		if (ypositie <= heightBlokTwee && ypositie >= heightBlokTwee - 50 && xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + 441){
+			ypositie = heightBlokTwee + 1 //zorgt voor dichte onderkant
+			grounded = false; 
+		}
+		if (xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + (440) && ypositie > (heightBlokTwee - 85) && ypositie <= heightBlokTwee){
+			ypositie = heightBlokTwee - 85;
+			grounded = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
+			floor = heightBlokTwee -85;
+		}
+	
+
+
+
 
 	if (xpositie >= 1111) { // dichte zijkanten
 		xpositie = 1111;
 	}else if (xpositie <= -20)
 		xpositie = -20;
 	}
-
