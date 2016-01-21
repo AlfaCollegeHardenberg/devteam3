@@ -21,7 +21,8 @@ var poppetje = new Image();
 poppetje.src="run002.png";
 var vloer = new Image();
 vloer.src="grond.png";
-
+var clock = new Image();
+clock.src = "clock.png";
 var blok1 = new Image();
 blok1.src = "blok1.png";
 var getal = 1
@@ -90,9 +91,15 @@ function moveShit(){
 	beginBlokTwee -= snelheid;
 	eersteVloer -= snelheid;
 	tweedeVloer -= snelheid;
+	clockposX -= snelheid;
 }
 
+var randKlok = 0;
+var clockPositie = [floor, objectHeight, heightBlokTwee];
+var clockposX = 200;
+var clockposY = 500;
 function drawObjects() {
+	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
 	ctx.fillStyle="green";
 	ctx.fillRect(beginBlokTwee,heightBlokTwee,500,50);                                           
@@ -116,10 +123,17 @@ function drawObjects() {
 		tweedeVloer = 1200;
 	}
 
+	if (clockposX == -1200){
+		clockposX = 1200; //random klok
+		randKlok = (Math.floor(Math.random() * 3) + 1) - 1;
+		clockposY = clockPositie[randKlok] + 50;
+		hit == true;
+	}
+	return clockposY
 }
+
 var timer = 60
 var timerteller = 0
-
 function animate() { //60fps functie
 	drawScreen();
 	requestAnimationFrame(animate);
@@ -131,7 +145,7 @@ function animate() { //60fps functie
 		timerteller = 0
 		timer -= 1
 	}
-	console.log(timer)
+
 }
 
 
@@ -172,8 +186,15 @@ function handleKeyUp(evt) {
 		}
 }
 
+hit = true;
 grounded = true;
 function position(){
+	console.log(clockposY)
+	if (ypositie <= clockposY + 20 && ypositie >= clockposY - 70 && xpositie <= clockposX + 10 && xpositie >= clockposX - 70 && hit == true){
+		timer += 10;
+		hit = false;
+		console.log("hit")
+	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
 		xpositie -= sidewayspeed
@@ -195,6 +216,7 @@ function position(){
 		ypositie = 690;
 		floor = 690
 		grounded = true;
+		hit = true;
 	}
 		
 	if (getal == 1){ // wanneer blok #1 gebruikt wordt
@@ -204,7 +226,8 @@ function position(){
 		}
 		if (xpositie >= begin - 60 && xpositie <= begin + (440) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
 			ypositie = objectHeight - 85;
-			grounded = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
+			grounded = true;
+			hit = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
 			floor = objectHeight -85;
 		}
 
@@ -216,7 +239,8 @@ function position(){
 
 		if (xpositie >= begin - 60 && xpositie <= begin + (300) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
 			ypositie = objectHeight - 85;
-			grounded = true; // zorgt voor bovenkant
+			grounded = true;
+			hit = true; // zorgt voor bovenkant
 			floor = objectHeight -85;
 		}
 	}
@@ -228,27 +252,27 @@ function position(){
 
 		if (xpositie >= begin - 60 && xpositie <= begin + (230) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
 			ypositie = objectHeight - 85;
-			grounded = true; // zorgt voor bovenkant
+			grounded = true;
+			hit = true; // zorgt voor bovenkant
 			floor = objectHeight -85;
 		}
 	}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// BLOK2
-		if (ypositie <= heightBlokTwee && ypositie >= heightBlokTwee - 50 && xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + 441){
-			ypositie = heightBlokTwee + 1 //zorgt voor dichte onderkant
-			grounded = false; 
-		}
-		if (xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + (440) && ypositie > (heightBlokTwee - 85) && ypositie <= heightBlokTwee){
-			ypositie = heightBlokTwee - 85;
-			grounded = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
-			floor = heightBlokTwee -85;
-		}
+	if (ypositie <= heightBlokTwee && ypositie >= heightBlokTwee - 50 && xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + 441){
+		ypositie = heightBlokTwee + 1 //zorgt voor dichte onderkant
+		grounded = false; 
+	}
+	if (xpositie >= beginBlokTwee - 60 && xpositie <= beginBlokTwee + (440) && ypositie > (heightBlokTwee - 85) && ypositie <= heightBlokTwee){
+		ypositie = heightBlokTwee - 85;
+		grounded = true;
+		hit = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
+		floor = heightBlokTwee -85;
+	}
 	
-
-
-
-
 	if (xpositie >= 1111) { // dichte zijkanten
 		xpositie = 1111;
 	}else if (xpositie <= -20)
 		xpositie = -20;
 	}
+
+	//klok geeft extra tij
