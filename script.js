@@ -26,7 +26,13 @@ var clock = new Image();
 clock.src = "clock.png";
 var blok1 = new Image();
 blok1.src = "blok1.png";
-var getal = 1
+var hogeblok = new Image();
+hogeblok.src = "blok1.png";
+var getal = 1;
+var eersteAchtergrond = 0;
+var tweedeAchtergrond = 1200;
+var hoi = new Image();
+hoi.src = "BG.png";
 
 function init() {
 	document.onkeydown = handleKeyDown;
@@ -96,6 +102,8 @@ function moveShit(){
 	eersteVloer -= snelheid;
 	tweedeVloer -= snelheid;
 	clockposX -= snelheid;
+    eersteAchtergrond -= snelheid;
+    tweedeAchtergrond -= snelheid;
 }
 
 var randKlok = 0;
@@ -103,10 +111,12 @@ var clockPositie = [floor, objectHeight, heightBlokTwee];
 var clockposX = 200;
 var clockposY = 500;
 function drawObjects() {
+        ctx.drawImage(hoi,eersteAchtergrond,0);
+    ctx.drawImage(hoi,tweedeAchtergrond,0);
 	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
-	ctx.fillStyle="green";
-	ctx.fillRect(beginBlokTwee,heightBlokTwee,500,50);                                           
+    ctx.drawImage(hogeblok,beginBlokTwee,heightBlokTwee);
+    
 	ctx.drawImage(vloer,eersteVloer,775); //grond
 	ctx.drawImage(vloer,tweedeVloer,775);
 	if (beginBlokTwee <= -500) {
@@ -126,6 +136,12 @@ function drawObjects() {
 	if (tweedeVloer == 0){
 		tweedeVloer = 1200;
 	}
+     if (eersteAchtergrond == -1200) {
+        eersteAchtergrond = 1200;
+    }
+    if (tweedeAchtergrond == -1200) {
+        tweedeAchtergrond = 1200;
+    }
 
 	if (clockposX == -1200){
 		clockposX = 1200; //random klok
@@ -136,6 +152,9 @@ function drawObjects() {
 
 
 	return clockposY
+}
+function doodPoppetje(){
+    nieuwPoppetje.src = "rundood.png";
 }
 
 var timer = 10
@@ -154,7 +173,16 @@ function animate() { //60fps functie
 	}
 	if (timer <= 0){
 		hit = false;
+        
 		timer = 0;
+        
+//        alert("DOOD!");
+        doodPoppetje();
+        snelheid = 0;
+        ctx.fillStyle="red";
+	   ctx.font = "100px Arial";
+	   ctx.fillText(("Dood! je score was " + score), 100, 400)
+
 	}
 	scoreteller += 1;
 	if (scoreteller == 10 && timer > 0){
@@ -167,7 +195,7 @@ function animate() { //60fps functie
 
 function drawPlayer() {	
 	ctx.save
-	ctx.drawImage(nieuwPoppetje,xpositie,ypositie, 100, 100);
+	ctx.drawImage(nieuwPoppetje,xpositie,ypositie);
 	ctx.restore	
 }
 
@@ -222,11 +250,14 @@ function position(){
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
+        animatePoppetje();
 		xpositie -= sidewayspeed
 	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
+        animatePoppetje();
 	} else {
 		xpositie -= 2
+        animatePoppetje();
 	}
 	
 	if (ypositie <= (floor - 290)) {		//zorgt er voor dat je naar beneden komt na sprong
@@ -235,6 +266,7 @@ function position(){
 	
 	if (up && grounded == true){	// key up = jump
 		ypositie -= jumpspeed;
+        nieuwPoppetje.src = "run001.png";
 	}else{
 		grounded = false;
 		ypositie += landspeed;
