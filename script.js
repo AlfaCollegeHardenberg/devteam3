@@ -200,6 +200,8 @@ function position(){
 		xpositie -= sidewayspeed
 	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
+	} else {
+		xpositie -= 2
 	}
 	
 	if (ypositie <= (floor - 290)) {		//zorgt er voor dat je naar beneden komt na sprong
