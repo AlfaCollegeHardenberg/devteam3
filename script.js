@@ -126,7 +126,13 @@ function drawObjects() {
 	if (clockposX == -1200){
 		clockposX = 1200; //random klok
 		randKlok = (Math.floor(Math.random() * 3) + 1) - 1;
-		clockposY = clockPositie[randKlok] + 50;
+		clockposY = clockPositie[randKlok] -100;
+		if (clockposY <= objectHeight && clockposY >= objectHeight -50){
+			clockposY -= 110;
+		}
+		if (clockposY <= heightBlokTwee && clockposY >= heightBlokTwee -50){
+			clockposY -= 110;
+		}
 		hit == true;
 	}
 	return clockposY
