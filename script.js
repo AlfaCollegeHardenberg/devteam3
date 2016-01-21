@@ -33,6 +33,20 @@ var eersteAchtergrond = 0;
 var tweedeAchtergrond = 1200;
 var hoi = new Image();
 hoi.src = "BG.png";
+var audio = new Audio('mariocoin.WAV');
+audio.play();
+var bord = new Image();
+bord.src = "bord.png";
+var cactusEen = new Image();
+cactusEen.src = "cactus1.png";
+var cactusTwee = new Image();
+cactusTwee.src = "cactus2.png";
+var cactusDrie = new Image();
+cactusDrie.src = "cactus3.png";
+var randomCactusEen = 600;
+var randomCactusTwee = 900;
+var randomCactusDrie = 300;
+
 
 function init() {
 	document.onkeydown = handleKeyDown;
@@ -90,10 +104,13 @@ function drawScreen() {
 	ctx.clearRect(0,0,1200,800);
 	drawObjects()
 	moveShit();
-	ctx.fillStyle="red";
+    ctx.drawImage(bord,28,60);
+    ctx.drawImage(bord,1098,60);
+	ctx.fillStyle="white";
 	ctx.font = "30px Arial";
 	ctx.fillText(("Time: " + timer), 30, 100, 80)
 	ctx.fillText(("Score: " + score), 1100, 100, 80)
+
 }
 
 function moveShit(){
@@ -111,9 +128,13 @@ var clockPositie = [floor, objectHeight, heightBlokTwee];
 var clockposX = 200;
 var clockposY = 500;
 function drawObjects() {
-        ctx.drawImage(hoi,eersteAchtergrond,0);
+
+    ctx.drawImage(hoi,eersteAchtergrond,0);
     ctx.drawImage(hoi,tweedeAchtergrond,0);
 	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
+    ctx.drawImage(cactusEen,clockposX + 1100,670);
+    ctx.drawImage(cactusTwee,clockposX + 300,680)
+    
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
     ctx.drawImage(hogeblok,beginBlokTwee,heightBlokTwee);
     
@@ -179,9 +200,9 @@ function animate() { //60fps functie
 //        alert("DOOD!");
         doodPoppetje();
         snelheid = 0;
-        ctx.fillStyle="red";
+        ctx.fillStyle="black";
 	   ctx.font = "100px Arial";
-	   ctx.fillText(("Dood! je score was " + score), 100, 400)
+	   ctx.fillText(("Dood! je score was " + score), 75, 400)
 
 	}
 	scoreteller += 1;
@@ -247,6 +268,10 @@ function position(){
 		timer += 5;
 		hit = false; //klok
 		clockposY = 800;
+        audio.play();
+        randomCactusEen = Math.floor((Math.random() * 900) + 1)
+        randomCactusTwee = Math.floor((Math.random() * 900) + 1)
+        randomCactusDrie = Math.floor((Math.random() * 900) + 1)
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen

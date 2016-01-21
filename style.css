@@ -2,6 +2,9 @@ body{
     width: 1200px;
     height: 100%;
     margin: 0 auto;
+    margin-top: -19px;
+    background-color: burlywood;
 }
 canvas{
+    border: 1px solid black;
 }
