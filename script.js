@@ -1,14 +1,14 @@
 window.onload = init;
 var ctx;
 var begin = 1200
-var snelheid = 4; //hoe snel de blokken op je af komen
+var snelheid = 10; //hoe snel de blokken op je af komen
 var up = false;
 var right = false;
 var left = false;
 var jump = false;
 var xpositie = 10; //begin positie horizontaal 
 var ypositie = 753; //begin positie verticaal 
-var sidewayspeed = 3; //snelheid links,rechts
+var sidewayspeed = 4; //snelheid links,rechts
 var jumpspeed = 18; //snelheid sprong omhoog
 var landspeed = 10; //snelheid landing
 var floor = 690; // hoogte van vloer
@@ -23,6 +23,15 @@ vloer.src="grond.png";
 var blok1 = new Image();
 blok1.src = "blok1.png";
 var getal = 1
+
+function init() {
+	document.onkeydown = handleKeyDown;
+	document.onkeyup = handleKeyUp;
+	console.log("Init")
+	var canvas = document.querySelector("canvas");
+	ctx = canvas.getContext("2d");
+	animate();
+}
 
 function randomBlok(){
     var randomGetal = Math.floor((Math.random() * 3) + 1);
@@ -65,15 +74,6 @@ function animatePoppetje(){
 }
 
 
-function init() {
-	document.onkeydown = handleKeyDown;
-	document.onkeyup = handleKeyUp;
-	console.log("Init")
-	var canvas = document.querySelector("canvas");
-	ctx = canvas.getContext("2d");
-	animate();
-}
-
 function drawScreen() {
 	ctx.clearRect(0,0,1200,800);
 	drawObjects()
@@ -97,17 +97,16 @@ function drawObjects() {
 		randomBlok();
 	}
 
-	if (eersteVloer == -1200){
+	if (eersteVloer == -1200){ //zorgt voor rollende vloer
 		eersteVloer = 0
 	}
-
 	if (tweedeVloer == 0){
 		tweedeVloer = 1200;
 	}
 
 }
 
-function animate() {
+function animate() { //60fps functie
 	drawScreen();
 	requestAnimationFrame(animate);
 	drawPlayer();
@@ -153,49 +152,70 @@ function handleKeyUp(evt) {
 		}
 }
 
-gekozenGetal = console.log(randomBlok())
 grounded = true;
 function position(){
 
-	if (left) {
+	if (left) { 		// Left arrow key = naar links bewegen
 		xpositie -= sidewayspeed
-	} else if (right) {
+	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
 	}
 	
-	if (ypositie <= (floor - 290)) {
+	if (ypositie <= (floor - 290)) {		//zorgt er voor dat je naar beneden komt na sprong
 		grounded = false;
 	}
 	
-	if (up && grounded == true){
+	if (up && grounded == true){	// key up = jump
 		ypositie -= jumpspeed;
 	}else{
 		grounded = false;
 		ypositie += landspeed;
 	}
-	if (ypositie >= 690){ // vloer (min positie)
+	if (ypositie >= 690){ // vloer (min positie)		// zorgt er voor dat je niet door de grond valt
 		ypositie = 690;
 		floor = 690
 		grounded = true;
 	}
 		
-	if (getal == 1){
-		if (xpositie >= begin - 60 && xpositie <= begin + (440) && ypositie > (objectHeight - 85) && ypositie < 650){
+	if (getal == 1){ // wanneer blok #1 gebruikt wordt
+		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 60 && xpositie <= begin + 441){
+			ypositie = objectHeight + 1 //zorgt voor dichte onderkant
+			grounded = false; 
+		}
+		if (xpositie >= begin - 60 && xpositie <= begin + (440) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
 			ypositie = objectHeight - 85;
-			grounded = true;
+			grounded = true; //zorgt er voor dat je er op kan staan (verandert waarde floor)
 			floor = objectHeight -85;
 		}
-	} else if (getal == 2){
-		if (xpositie >= begin - 60 && xpositie <= begin + (300) && ypositie > (objectHeight - 85) && ypositie < 650){
-			ypositie = objectHeight - 85;
-			grounded = true;
-			floor = objectHeight -85;
+
+	} else if (getal == 2){ //wanneer blok #2 gebruikt wordt
+		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 60 && xpositie <= begin + 301){
+			ypositie = objectHeight + 1 //dichte onderkant
+			grounded = false;
 		}
-	} else if (getal == 3){
-		if (xpositie >= begin - 60 && xpositie <= begin + (230) && ypositie > (objectHeight - 85) && ypositie < 650){
+
+		if (xpositie >= begin - 60 && xpositie <= begin + (300) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
 			ypositie = objectHeight - 85;
-			grounded = true;
+			grounded = true; // zorgt voor bovenkant
 			floor = objectHeight -85;
 		}
 	}
-}
+	else if (getal == 3){
+		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 60 && xpositie <= begin + 231){
+			ypositie = objectHeight + 1; // dichte onderkant
+			grounded = false;
+		}
+
+		if (xpositie >= begin - 60 && xpositie <= begin + (230) && ypositie > (objectHeight - 85) && ypositie <= objectHeight){
+			ypositie = objectHeight - 85;
+			grounded = true; // zorgt voor bovenkant
+			floor = objectHeight -85;
+		}
+	}
+
+	if (xpositie >= 1111) { // dichte zijkanten
+		xpositie = 1111;
+	}else if (xpositie <= -20)
+		xpositie = -20;
+	}
+
