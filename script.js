@@ -77,10 +77,11 @@ function startscreen() {
 	$('canvas').on('click', function(){
         animateSpel += 1;
         var count = 5;
+        if (animateSpel == 1){
         var timerId = setInterval(function() {
             count--;
         console.log(count);
-        if (animateSpel == 1)
+        
         if (count == 4) {
             ctx.fillStyle="black";
 	        ctx.font = "100px Arial";
@@ -107,6 +108,7 @@ function startscreen() {
             muziek.play();
         }
     }, 1000);
+        }
 	});
 }
 
