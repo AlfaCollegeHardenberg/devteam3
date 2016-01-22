@@ -355,12 +355,12 @@ hit = true;
 grounded = true;
 function position(){
 
-	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 60 && clockposX <= begin + 441){
-		clockposY -= 80;
+	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 80 && clockposX <= begin + 441){
+		clockposY -= 100;
 	}
-	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -60 && clockposX <= beginBlokTwee + 440){
+	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -80 && clockposX <= beginBlokTwee + 440){
 	
-		clockposY -= 80;
+		clockposY -= 100;
 	}
 
 	if (ypositie <= clockposY + 20 && ypositie >= clockposY - 70 && xpositie <= clockposX + 10 && xpositie >= clockposX - 70 && hit == true){
