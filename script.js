@@ -295,7 +295,7 @@ function animate() { //60fps functie
         ctx.fillStyle="black";
 	   ctx.font = "100px Arial";
 	   ctx.fillText(("Dood! je score is " + score), 75, 400);
-        	setTimeout(function(){window.location.reload(false)}, 4500);
+        	setTimeout(function(){location.href = location.href}, 4500);
 
 	}
 	scoreteller += 1;
