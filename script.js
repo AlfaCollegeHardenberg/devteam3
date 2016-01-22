@@ -56,12 +56,15 @@ function init() {
 	ctx = canvas.getContext("2d");
 	startscreen();
 }
-
+var animateSpel = 0
 function startscreen() {
 	ctx.fillStyle = "red";
 	ctx.fillRect(0, 0, 1200,800)
 	$('canvas').on('click', function(){
-			animate();
+			animateSpel +=1;
+			if (animateSpel == 1){
+			setTimeout(function(){animate()}, 3000);
+		}
 	});
 }
 
@@ -199,17 +202,15 @@ function animate() { //60fps functie
 		timerteller = 0;
 		timer -= 1;
 	}
-	if (timer <= 0){
+	if (timer <= 0){ // wanneer dood
 		hit = false;
-        
 		timer = 0;
-        
-//        alert("DOOD!");
         doodPoppetje();
         snelheid = 0;
         ctx.fillStyle="black";
-	   ctx.font = "100px Arial";
-	   ctx.fillText(("Dood! je score was " + score), 75, 400)
+	   	ctx.font = "100px Arial";
+	   	ctx.fillText(("Dood! je score was " + score), 75, 400)
+	   	setTimeout(function(){location.reload(true)}, 5000);
 
 	}
 	scoreteller += 1;
