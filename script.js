@@ -295,7 +295,7 @@ function animate() { //60fps functie
         ctx.fillStyle="black";
 	   ctx.font = "100px Arial";
 	   ctx.fillText(("Dood! je score is " + score), 75, 400);
-        	setTimeout(function(){location.href = location.href}, 4500);
+        	setTimeout(function(){location.href = location.href}, 4400);
 
 	}
 	scoreteller += 1;
@@ -365,7 +365,7 @@ function position(){
 		timer += 5;
 		hit = false; //klok
 		clockposY = 800;
-       // audio.play();
+        audio.play();
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
