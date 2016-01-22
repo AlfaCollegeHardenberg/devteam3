@@ -70,12 +70,12 @@ function init() {
 var animateSpel = 0
 function startscreen() {
     ctx.drawImage(hoi,0,0);
-            ctx.fillStyle="black";
-	   ctx.font = "100px Arial";
+    ctx.fillStyle="black";
+	ctx.font = "100px Arial";
     ctx.fillText(textje, nul, nul);
 	
 	$('canvas').on('click', function(){
-            // your code goes here
+        animateSpel += 1;
         var count = 5;
         var timerId = setInterval(function() {
             count--;
@@ -101,7 +101,7 @@ function startscreen() {
             ctx.fillText("Start!", 390, 500); 
               }
             
-        if(count == 0) {
+        if(count == 0 && animateSpel == 1) {
             animate();
             muziek.play();
         }
@@ -373,7 +373,7 @@ function position(){
 	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
         animatePoppetje();
-	} else {
+	}  else if (timer > 0) {
 		xpositie -= 2
         animatePoppetje();
 	}
@@ -389,6 +389,8 @@ function position(){
 		grounded = false;
 		ypositie += landspeed;
 	}
+
+
 	if (ypositie >= 690){ // vloer (min positie)		// zorgt er voor dat je niet door de grond valt
 		ypositie = 690;
 		floor = 690
