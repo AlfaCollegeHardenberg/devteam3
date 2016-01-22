@@ -54,23 +54,18 @@ function init() {
 	console.log("Init")
 	var canvas = document.querySelector("canvas");
 	ctx = canvas.getContext("2d");
-	animate();
+	startscreen();
+}
+
+function startscreen() {
+	ctx.fillStyle = "red";
+	ctx.fillRect(0, 0, 1200,800)
+	$('canvas').on('click', function(){
+			animate();
+	});
 }
 
 
-function randomBlokSneeuw(){
-    var randomGetal = Math.floor((Math.random() * 3) + 1);
-    if (randomGetal == 1) {
-        blok1.src = "sneeuwblok1.png";
-        getal = 1// breedte 483px
-    }else if (randomGetal == 2) {
-        blok1.src = "sneeuwblok2.png";
-        getal = 2// breedte 345px
-    }else if (randomGetal == 3) {
-        blok1.src = "sneeuwblok3.png";
-        getal = 3 // breedte 276px
-    }
-}
 function randomBlok(){
     var randomGetal = Math.floor((Math.random() * 3) + 1);
     if (randomGetal == 1) {
@@ -145,7 +140,7 @@ function drawObjects() {
     ctx.drawImage(hoi,tweedeAchtergrond,0);
 	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
     ctx.drawImage(cactusEen,clockposX + 1100,670);
-    ctx.drawImage(cactusTwee,clockposX + 300,720)
+    ctx.drawImage(cactusTwee,clockposX + 300,680)
     
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
     ctx.drawImage(hogeblok,beginBlokTwee,heightBlokTwee);
@@ -160,11 +155,7 @@ function drawObjects() {
 	if (begin <= -500) {
 		begin = 1200; // als blok1 geweest is, achteraan zetten
 		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1)
-		if (score >= 100) {
-            randomBlokSneeuw();
-        } else {
-            randomBlok();
-        }
+		randomBlok();
 	}
 
 	if (eersteVloer == -1200){ //zorgt voor rollende vloer
@@ -226,13 +217,6 @@ function animate() { //60fps functie
 		scoreteller = 0;
 		score += 1;
 	}
-    if (score >= 100) {
-        hoi.src = "bgsneeuw.png";
-        hogeblok.src = "sneeuwblok1.png";
-        vloer.src = "sneeuwgrond.png";
-        cactusEen.src = "SnowMan.png";
-        cactusTwee.src = "Crystal.png";
-    }
 
 }
 
@@ -279,10 +263,10 @@ hit = true;
 grounded = true;
 function position(){
 
-	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 60 && clockposX <= begin + 441){
+	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 100 && clockposX <= begin + 441){
 		clockposY -= 80;
 	}
-	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -60 && clockposX <= beginBlokTwee + 440){
+	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -100 && clockposX <= beginBlokTwee + 440){
 	
 		clockposY -= 80;
 	}
@@ -292,6 +276,9 @@ function position(){
 		hit = false; //klok
 		clockposY = 800;
         audio.play();
+        randomCactusEen = Math.floor((Math.random() * 900) + 1)
+        randomCactusTwee = Math.floor((Math.random() * 900) + 1)
+        randomCactusDrie = Math.floor((Math.random() * 900) + 1)
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
@@ -300,7 +287,7 @@ function position(){
 	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
         animatePoppetje();
-	} else {
+	} else if (timer > 0) {
 		xpositie -= 2
         animatePoppetje();
 	}
@@ -324,7 +311,7 @@ function position(){
 	}
 		
 	if (getal == 1){ // wanneer blok #1 gebruikt wordt
-		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 60 && xpositie <= begin + 441){
+		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 100 && xpositie <= begin + 441){
 			ypositie = objectHeight + 1 //zorgt voor dichte onderkant
 			grounded = false; 
 		}
