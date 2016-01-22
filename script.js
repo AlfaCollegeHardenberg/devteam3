@@ -80,6 +80,7 @@ function startscreen() {
         var timerId = setInterval(function() {
             count--;
         console.log(count);
+        if (animateSpel == 1)
         if (count == 4) {
             ctx.fillStyle="black";
 	        ctx.font = "100px Arial";
@@ -101,7 +102,7 @@ function startscreen() {
             ctx.fillText("Start!", 390, 500); 
               }
             
-        if(count == 0 && animateSpel == 1) {
+        if(count == 0) {
             animate();
             muziek.play();
         }
@@ -294,7 +295,7 @@ function animate() { //60fps functie
         ctx.fillStyle="black";
 	   ctx.font = "100px Arial";
 	   ctx.fillText(("Dood! je score is " + score), 75, 400);
-        	setTimeout(function(){location.reload(true)}, 4500);
+        	setTimeout(function(){location.reload(false)}, 4500);
 
 	}
 	scoreteller += 1;
