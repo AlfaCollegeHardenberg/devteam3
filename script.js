@@ -58,7 +58,19 @@ function init() {
 }
 
 
-
+function randomBlokSneeuw(){
+    var randomGetal = Math.floor((Math.random() * 3) + 1);
+    if (randomGetal == 1) {
+        blok1.src = "sneeuwblok1.png";
+        getal = 1// breedte 483px
+    }else if (randomGetal == 2) {
+        blok1.src = "sneeuwblok2.png";
+        getal = 2// breedte 345px
+    }else if (randomGetal == 3) {
+        blok1.src = "sneeuwblok3.png";
+        getal = 3 // breedte 276px
+    }
+}
 function randomBlok(){
     var randomGetal = Math.floor((Math.random() * 3) + 1);
     if (randomGetal == 1) {
@@ -133,7 +145,7 @@ function drawObjects() {
     ctx.drawImage(hoi,tweedeAchtergrond,0);
 	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
     ctx.drawImage(cactusEen,clockposX + 1100,670);
-    ctx.drawImage(cactusTwee,clockposX + 300,680)
+    ctx.drawImage(cactusTwee,clockposX + 300,720)
     
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
     ctx.drawImage(hogeblok,beginBlokTwee,heightBlokTwee);
@@ -148,7 +160,11 @@ function drawObjects() {
 	if (begin <= -500) {
 		begin = 1200; // als blok1 geweest is, achteraan zetten
 		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1)
-		randomBlok();
+		if (score >= 100) {
+            randomBlokSneeuw();
+        } else {
+            randomBlok();
+        }
 	}
 
 	if (eersteVloer == -1200){ //zorgt voor rollende vloer
@@ -210,6 +226,13 @@ function animate() { //60fps functie
 		scoreteller = 0;
 		score += 1;
 	}
+    if (score >= 100) {
+        hoi.src = "bgsneeuw.png";
+        hogeblok.src = "sneeuwblok1.png";
+        vloer.src = "sneeuwgrond.png";
+        cactusEen.src = "SnowMan.png";
+        cactusTwee.src = "Crystal.png";
+    }
 
 }
 
@@ -269,9 +292,6 @@ function position(){
 		hit = false; //klok
 		clockposY = 800;
         audio.play();
-        randomCactusEen = Math.floor((Math.random() * 900) + 1)
-        randomCactusTwee = Math.floor((Math.random() * 900) + 1)
-        randomCactusDrie = Math.floor((Math.random() * 900) + 1)
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
