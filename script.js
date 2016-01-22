@@ -22,6 +22,8 @@ var poppetje = new Image();
 poppetje.src="run002.png";
 var vloer = new Image();
 vloer.src="grond.png";
+var vloer2 = new Image();
+vloer2.src = "grond.png"
 var clock = new Image();
 clock.src = "clock.png";
 var blok1 = new Image();
@@ -33,8 +35,10 @@ var eersteAchtergrond = 0;
 var tweedeAchtergrond = 1200;
 var hoi = new Image();
 hoi.src = "BG.png";
+var hoi2 = new Image();
+hoi2.src = "BG.png";
 var audio = new Audio('mariocoin.WAV');
-audio.play();
+var muziek = new Audio('nevergonnagiveyouup.mp3')
 var bord = new Image();
 bord.src = "bord.png";
 var cactusEen = new Image();
@@ -46,6 +50,12 @@ cactusDrie.src = "cactus3.png";
 var randomCactusEen = 600;
 var randomCactusTwee = 900;
 var randomCactusDrie = 300;
+var textje = "Klik om te beginnen";
+var nul = 150;
+var nul1 = 400;
+var playerdown = new Audio();
+playerdown.src = "playerdown.mp3"
+
 
 
 function init() {
@@ -56,19 +66,62 @@ function init() {
 	ctx = canvas.getContext("2d");
 	startscreen();
 }
+
 var animateSpel = 0
 function startscreen() {
-	ctx.fillStyle = "red";
-	ctx.fillRect(0, 0, 1200,800)
+    ctx.drawImage(hoi,0,0);
+            ctx.fillStyle="black";
+	   ctx.font = "100px Arial";
+    ctx.fillText(textje, nul, nul);
+	
 	$('canvas').on('click', function(){
-			animateSpel +=1;
-			if (animateSpel == 1){
-			setTimeout(function(){animate()}, 3000);
-		}
+            // your code goes here
+        var count = 5;
+        var timerId = setInterval(function() {
+            count--;
+        console.log(count);
+        if (count == 4) {
+            ctx.fillStyle="black";
+	        ctx.font = "100px Arial";
+            ctx.fillText(3, 400, 400 + 1); 
+        }
+              if (count == 3) {
+            ctx.fillStyle="black";
+	        ctx.font = "100px Arial";
+            ctx.fillText(2, 480, 400 + 1); 
+        }
+              if (count == 2) {
+            ctx.fillStyle="black";
+	        ctx.font = "100px Arial";
+            ctx.fillText(1, 560, 400); 
+        }
+              if (count == 1 ) {
+            ctx.fillStyle="black";
+	        ctx.font = "100px Arial";
+            ctx.fillText("Start!", 390, 500); 
+              }
+            
+        if(count == 0) {
+            animate();
+            muziek.play();
+        }
+    }, 1000);
 	});
 }
 
-
+function randomBlokSneeuw(){
+    var randomGetal = Math.floor((Math.random() * 3) + 1);
+    if (randomGetal == 1) {
+        blok1.src = "sneeuwblok1.png";
+        getal = 1// breedte 483px
+    }else if (randomGetal == 2) {
+        blok1.src = "sneeuwblok2.png";
+        getal = 2// breedte 345px
+    }else if (randomGetal == 3) {
+        blok1.src = "sneeuwblok3.png";
+        getal = 3 // breedte 276px
+    }
+}
 function randomBlok(){
     var randomGetal = Math.floor((Math.random() * 3) + 1);
     if (randomGetal == 1) {
@@ -140,16 +193,16 @@ var clockposY = 500;
 function drawObjects() {
 
     ctx.drawImage(hoi,eersteAchtergrond,0);
-    ctx.drawImage(hoi,tweedeAchtergrond,0);
+    ctx.drawImage(hoi2,tweedeAchtergrond,0);
 	ctx.drawImage(clock,clockposX,clockposY,50,50); //klokje wordt gemaakt
     ctx.drawImage(cactusEen,clockposX + 1100,670);
-    ctx.drawImage(cactusTwee,clockposX + 300,680)
+    ctx.drawImage(cactusTwee,clockposX + 300,700)
     
 	ctx.drawImage(blok1, begin, objectHeight); // object 1 opgemaakt
     ctx.drawImage(hogeblok,beginBlokTwee,heightBlokTwee);
     
 	ctx.drawImage(vloer,eersteVloer,775); //grond
-	ctx.drawImage(vloer,tweedeVloer,775);
+	ctx.drawImage(vloer2,tweedeVloer,775);
 	if (beginBlokTwee <= -500) {
 		beginBlokTwee = 1200; // blok achteraan zetten
 		heightBlokTwee = 400 - (Math.floor(Math.random() * 120))
@@ -158,21 +211,47 @@ function drawObjects() {
 	if (begin <= -500) {
 		begin = 1200; // als blok1 geweest is, achteraan zetten
 		objectHeight = 640 - (Math.floor(Math.random() * 100) + 1)
-		randomBlok();
+		if (score >= 110) {
+            randomBlokSneeuw();
+        } else if (score <= 100) {
+            randomBlok();
+        }
 	}
 
-	if (eersteVloer == -1200){ //zorgt voor rollende vloer
-		eersteVloer = 0
-	}
-	if (tweedeVloer == 0){
+	if (eersteVloer == -1200 && score <= 110){ //zorgt voor rollende vloer
+		eersteVloer = 0;
+        vloer.src = "grond.png";
+	} else if (eersteVloer == - 1200 && score >= 110 ) {
+        eersteVloer = 0;
+        vloer.src = "sneeuwgrond.png";
+        
+    }
+    if (score >= 100) {
+        hogeblok.src = "sneeuwblok1.png";
+    }
+	if (tweedeVloer == 0 && score <= 100){ //zorgt voor rollende vloer
 		tweedeVloer = 1200;
-	}
-     if (eersteAchtergrond == -1200) {
+        vloer2.src = "grond.png";
+	} else if (tweedeVloer ==  0 && score >=100) {
+        tweedeVloer = 1200;
+        vloer2.src = "sneeuwgrond.png";
+    }
+    if (eersteAchtergrond == -1200 && score <= 100) {
         eersteAchtergrond = 1200;
+        hoi.src="bg.png";
+    } else if (eersteAchtergrond == -1200 && score >= 100) {
+        eersteAchtergrond = 1200;
+        hoi.src="bgsneeuw.png";
     }
-    if (tweedeAchtergrond == -1200) {
+
+    if (tweedeAchtergrond == -1200 && score <= 100) {
         tweedeAchtergrond = 1200;
+        hoi2.src="bg.png";
+    } else if (tweedeAchtergrond == -1200 && score >= 100) {
+        tweedeAchtergrond = 1200;
+        hoi2.src="bgsneeuw.png";
     }
+
 
 	if (clockposX == -1200){
 		clockposX = 1200; //random klok
@@ -202,15 +281,20 @@ function animate() { //60fps functie
 		timerteller = 0;
 		timer -= 1;
 	}
-	if (timer <= 0){ // wanneer dood
+	if (timer <= 0){
 		hit = false;
+        
 		timer = 0;
+        
+//        alert("DOOD!");
         doodPoppetje();
         snelheid = 0;
+        playerdown.play();
+        muziek.pause();
         ctx.fillStyle="black";
-	   	ctx.font = "100px Arial";
-	   	ctx.fillText(("Dood! je score was " + score), 75, 400)
-	   	setTimeout(function(){location.reload(true)}, 5000);
+	   ctx.font = "100px Arial";
+	   ctx.fillText(("Dood! je score is " + score), 75, 400);
+        	setTimeout(function(){location.reload(true)}, 4500);
 
 	}
 	scoreteller += 1;
@@ -218,6 +302,10 @@ function animate() { //60fps functie
 		scoreteller = 0;
 		score += 1;
 	}
+    if (score >= 115) {
+        cactusEen.src = "SnowMan.png";
+        cactusTwee.src = "Crystal.png";
+    }
 
 }
 
@@ -264,10 +352,10 @@ hit = true;
 grounded = true;
 function position(){
 
-	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 100 && clockposX <= begin + 441){
+	if (clockposY >= objectHeight - 50 && clockposY <= objectHeight && clockposX >= begin - 60 && clockposX <= begin + 441){
 		clockposY -= 80;
 	}
-	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -100 && clockposX <= beginBlokTwee + 440){
+	if (clockposY >= heightBlokTwee - 50 && clockposY <= heightBlokTwee && clockposX >= beginBlokTwee -60 && clockposX <= beginBlokTwee + 440){
 	
 		clockposY -= 80;
 	}
@@ -277,9 +365,6 @@ function position(){
 		hit = false; //klok
 		clockposY = 800;
         audio.play();
-        randomCactusEen = Math.floor((Math.random() * 900) + 1)
-        randomCactusTwee = Math.floor((Math.random() * 900) + 1)
-        randomCactusDrie = Math.floor((Math.random() * 900) + 1)
 	}
 
 	if (left) { 		// Left arrow key = naar links bewegen
@@ -288,7 +373,7 @@ function position(){
 	} else if (right) { // right arrow key = naar rechts bewegen
 		xpositie += sidewayspeed
         animatePoppetje();
-	} else if (timer > 0) {
+	} else {
 		xpositie -= 2
         animatePoppetje();
 	}
@@ -312,7 +397,7 @@ function position(){
 	}
 		
 	if (getal == 1){ // wanneer blok #1 gebruikt wordt
-		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 100 && xpositie <= begin + 441){
+		if (ypositie <= objectHeight && ypositie >= objectHeight - 50 && xpositie >= begin - 60 && xpositie <= begin + 441){
 			ypositie = objectHeight + 1 //zorgt voor dichte onderkant
 			grounded = false; 
 		}
