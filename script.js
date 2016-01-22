@@ -34,9 +34,9 @@ var getal = 1;
 var eersteAchtergrond = 0;
 var tweedeAchtergrond = 1200;
 var hoi = new Image();
-hoi.src = "BG.png";
+hoi.src = "achtergrondje.png";
 var hoi2 = new Image();
-hoi2.src = "BG.png";
+hoi2.src = "achtergrondje.png";
 var audio = new Audio('mariocoin.WAV');
 var muziek = new Audio('nevergonnagiveyouup.mp3')
 var bord = new Image();
@@ -238,7 +238,7 @@ function drawObjects() {
     }
     if (eersteAchtergrond == -1200 && score <= 100) {
         eersteAchtergrond = 1200;
-        hoi.src="bg.png";
+        hoi.src="achtergrondje.png";
     } else if (eersteAchtergrond == -1200 && score >= 100) {
         eersteAchtergrond = 1200;
         hoi.src="bgsneeuw.png";
@@ -246,7 +246,7 @@ function drawObjects() {
 
     if (tweedeAchtergrond == -1200 && score <= 100) {
         tweedeAchtergrond = 1200;
-        hoi2.src="bg.png";
+        hoi2.src="achtergrondje.png";
     } else if (tweedeAchtergrond == -1200 && score >= 100) {
         tweedeAchtergrond = 1200;
         hoi2.src="bgsneeuw.png";
